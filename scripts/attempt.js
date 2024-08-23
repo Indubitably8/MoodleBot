@@ -111,43 +111,21 @@ for(let i = 0; i < inputs.length; i++){
 }
 setInterval(shortCut, 100);
 
+//Normal Curve method to make it indetactable :)
+function gaussianRandom(mean=0, stdev=1) {
+  const u = 1 - Math.random(); // Converting [0,1) to (0,1]
+  const v = Math.random();
+  const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+  // Transform to the desired mean and standard deviation:
+  return z * stdev + mean;
+}
+
 //Auto Completes
 function auto(options = {}){
   var speed = options.fast || 1;
   var dumb = options.dumb || false;
-  var pauseInterval = 3000+Math.floor(Math.random() * 4500);
-  var correctGoal = Math.floor(Math.random() * 100);
-  if(dumb){
-  if(correctGoal < 6){
-    correctGoal = 5;
-  } else {
-  if(correctGoal < 14){
-    correctGoal = 6;
-  } else {
-  if(correctGoal < 30){
-    correctGoal = 7;
-  } else {
-    if(correctGoal < 39){
-      correctGoal = 8;
-    } else {
-      if(correctGoal < 88){
-        correctGoal = 9;
-      } else {
-        correctGoal = 10;
-      }}}}}
-  } else {
-    if(correctGoal < 7){
-    correctGoal = 7;
-  } else {
-    if(correctGoal < 53){
-      correctGoal = 8;
-    } else {
-      if(correctGoal < 82){
-        correctGoal = 9;
-      } else {
-        correctGoal = 10;
-      }}}
-  }
+  var pauseInterval = Math.abs(gaussianRandom(4.8712, 0.89) * 1000);
+  var correctGoal = Math.floor(gaussianRandom(8.93, 0.74));
   var correct = inputs.length-10;
   for(let i = 0; i < inputs.length; i++){
     var id = Number(inputs[i].id.slice(9).replace('_answer', ''));

@@ -1,5 +1,5 @@
 /*
-cd "C:\Users\johnd\Documents\moodle-bot-extension"
+cd "C:\Users\johnd\Documents\Github/MoodleBot"
 npx webpack
 */
 
