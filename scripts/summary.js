@@ -13,4 +13,8 @@ async function main(){
         progress();
     })
 }
-main();
+chrome.storage.sync.get('run', function(data) {
+    if(data.run){
+  main();
+    }
+  });

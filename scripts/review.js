@@ -59,9 +59,20 @@ async function main (){
     }
     request = request + 'question.eq.' + questions[i];
   }
+  //Checks to ensure proper db
+  if(document.body.textContent.includes('Mechley')){
+    await chrome.storage.sync.set({ db: 'Mechley' });
+  } else if(document.body.textContent.includes('Denning')){
+    await chrome.storage.sync.set({ db: 'Denning' });
+  }
+
+  var dbSet = 'Mechley';
+  await chrome.storage.sync.get('db', function(data) {
+    dbSet = data.db ?? 'Mechley';
+});
 
   var dataGlobal =
-    (await _supabase.from("Latin").select().or(request)).data ?? [];
+    (await _supabase.from(dbSet).select().or(request)).data ?? [];
 var questionsGlobal = [];
 var answersGlobal = [];
 for(let i = 0; i < dataGlobal.length; i++){
@@ -85,7 +96,7 @@ for(let i = 0; i < questions.length; i++){
 }
   //Extract Data
   for(let i = 0; i < questionsUpdate.length; i++){
-    await _supabase.from('Latin').insert({"question":questionsUpdate[i], "answer":answersUpdate[i]});
+    await _supabase.from(dbSet).insert({"question":questionsUpdate[i], "answer":answersUpdate[i]});
   }
   //Escape!
   document.getElementsByClassName('mod_quiz-next-nav')[0].click()
@@ -130,4 +141,8 @@ for(let i = 0; i < questions.length; i++){
     }
   }
 }
+chrome.storage.sync.get('run', function(data) {
+  if(data.run){
 main();
+  }
+});

@@ -56,8 +56,13 @@ async function main(){
       request = request + 'question.eq.' + questions[i];
     }
   
+    var dbSet = 'Mechley';
+  await chrome.storage.sync.get('db', function(data) {
+    dbSet = data.db ?? 'Mechley';
+});
+
     var dataGlobal =
-      (await _supabase.from("Latin").select().or(request)).data ?? [];
+      (await _supabase.from(dbSet).select().or(request)).data ?? [];
   var questionsGlobal = [];
   var answersGlobal = [];
   for(let i = 0; i < dataGlobal.length; i++){
@@ -125,7 +130,7 @@ function auto(options = {}){
   var speed = options.fast || 1;
   var dumb = options.dumb || false;
   var pauseInterval = Math.abs(gaussianRandom(4.8712, 0.89) * 1000);
-  var correctGoal = Math.floor(gaussianRandom(8.93, 0.74));
+  var correctGoal = Math.floor(gaussianRandom(8.53, 0.86));
   var correct = inputs.length-10;
   for(let i = 0; i < inputs.length; i++){
     var id = Number(inputs[i].id.slice(9).replace('_answer', ''));
@@ -177,4 +182,8 @@ if(devmode){
 });
 auto();
 }
+chrome.storage.sync.get('run', function(data) {
+  if(data.run){
 main();
+  }
+});
