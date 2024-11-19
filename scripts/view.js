@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
 async function main(){
-
     //Finds number of quizzes passed today
     function numberPassed(){
         var date = new Date();
@@ -10,7 +9,7 @@ async function main(){
         var result = 0;
         for(let i = 0; i < text.length; i++){
           if(Number(text[i].textContent) >= 8){
-            if(text[i].parentNode.textContent.includes(', '+date.getDate())){
+            if(text[i].parentNode.textContent.includes(', '+date.getDate()+' ')){
             result++;
             }
           }
